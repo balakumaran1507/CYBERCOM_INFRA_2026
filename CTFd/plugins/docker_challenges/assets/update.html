@@ -1,0 +1,33 @@
+{% extends "admin/challenges/update.html" %}
+{% block category %}
+<div class="form-group">
+    <label>
+        Category<br>
+        <small class="form-text text-muted">Challenge Category</small>
+    </label>
+    <input type="text" class="form-control chal-category" name="category" value="{{ challenge.category }}">
+</div>
+<div class="form-group">
+    <label for="DockerImage" id='dockerimage_label'>Docker Image:
+        <i class="far fa-question-circle text-muted cursor-help" data-toggle="tooltip" data-placement="right" title="The docker image for your challenge"></i>
+    </label>
+    <select id="dockerimage_select" name="docker_image" class="form-control" required></select>
+</div>
+<div class="form-group">
+    <label for="flag_template">Flag Template:
+        <i class="far fa-question-circle text-muted cursor-help" data-toggle="tooltip" data-placement="right" title="Template for dynamic flag generation. Use &lt;hex&gt; for 6-character random hex placeholders."></i>
+    </label>
+    <input type="text" class="form-control" id="flag_template" name="flag_template" value="{{ challenge.flag_template or 'default_<hex>' }}" placeholder="Example: injects_<hex>_hurts_yk_<hex>">
+    <small class="form-text text-muted">
+        Use <code>&lt;hex&gt;</code> placeholders for random hex values. Example: <code>injects_&lt;hex&gt;_hurts_yk_&lt;hex&gt;</code>
+    </small>
+    <div id="flag_preview" class="mt-2 p-2 bg-light border rounded" style="display:none;">
+        <strong>Preview:</strong> <code id="flag_preview_text"></code>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+<script>
+var DOCKER_IMAGE = '{{ challenge.docker_image }}';
+</script>
+{% endblock %}

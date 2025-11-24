@@ -1,0 +1,190 @@
+{
+  "project": {
+    "name": "CYBERCOM CTF 2026",
+    "description": "Custom CTF Infrastructure with Dynamic Docker Challenges",
+    "repository": "https://github.com/balakumaran1507/CYBERCOM_CTF_2026.git",
+    "base_platform": "CTFd 3.7.x",
+    "created": "2025-11-21",
+    "status": "Phase B Complete"
+  },
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0,
+    "phase": "B",
+    "codename": "Instance Spawner",
+    "build_date": "2025-11-21"
+  },
+  "features": {
+    "completed": [
+      "Dynamic Docker challenge type",
+      "Per-team/user container isolation",
+      "Secure Docker socket proxy integration",
+      "Admin container management dashboard",
+      "Automatic container cleanup (5min/2hr)",
+      "Container termination on solve"
+    ],
+    "in_progress": [],
+    "planned": [
+      "Dynamic flag generation (Phase C)",
+      "CYBERCOM custom branding (Phase D)",
+      "Enhanced admin dashboard (Phase D)",
+      "Multi-node Docker Swarm support (Phase E)",
+      "Challenge analytics (Phase E)"
+    ]
+  },
+  "architecture": {
+    "components": {
+      "ctfd": {
+        "image": "ctfd-ctfd (custom build)",
+        "port": 8000,
+        "dependencies": ["db", "cache", "docker-proxy"]
+      },
+      "nginx": {
+        "image": "nginx:stable",
+        "port": 80,
+        "purpose": "Reverse proxy"
+      },
+      "db": {
+        "image": "mariadb:10.11",
+        "port": 3306,
+        "network": "internal"
+      },
+      "cache": {
+        "image": "redis:4",
+        "network": "internal"
+      },
+      "docker-proxy": {
+        "image": "tecnativa/docker-socket-proxy:latest",
+        "port": 2375,
+        "network": "default",
+        "purpose": "Secure Docker API access"
+      }
+    },
+    "networks": {
+      "ctfd_default": "Public bridge network",
+      "ctfd_internal": "Internal network (DB, Cache)"
+    }
+  },
+  "plugins": {
+    "docker_challenges": {
+      "version": "1.0.0",
+      "location": "CTFd/plugins/docker_challenges",
+      "files": 11,
+      "size_kb": 28,
+      "challenge_type": "docker",
+      "endpoints": [
+        "/api/v1/docker",
+        "/api/v1/container",
+        "/api/v1/docker_status",
+        "/api/v1/nuke",
+        "/admin/docker_config",
+        "/admin/docker_status"
+      ]
+    }
+  },
+  "security": {
+    "docker_proxy_permissions": {
+      "allowed": [
+        "IMAGES",
+        "NETWORKS",
+        "VOLUMES",
+        "CONTAINERS",
+        "INFO",
+        "VERSION",
+        "EVENTS",
+        "PING"
+      ],
+      "denied": [
+        "ALLOW_RESTARTS",
+        "ALLOW_STOP",
+        "ALLOW_START",
+        "BUILD",
+        "COMMIT",
+        "EXEC",
+        "SWARM",
+        "POST"
+      ]
+    },
+    "network_isolation": true,
+    "tls_enabled": false,
+    "recommended_hardening": [
+      "Enable TLS for Docker proxy in production",
+      "Implement rate limiting on container creation",
+      "Add resource quotas (CPU/Memory)",
+      "Regular security audits of challenge images",
+      "Container vulnerability scanning"
+    ]
+  },
+  "database": {
+    "new_tables": [
+      {
+        "name": "docker_config",
+        "purpose": "Store Docker API connection settings",
+        "fields": ["id", "hostname", "tls_enabled", "ca_cert", "client_cert", "client_key", "repositories"]
+      },
+      {
+        "name": "docker_challenge_tracker",
+        "purpose": "Track active container instances",
+        "fields": ["id", "team_id", "user_id", "docker_image", "timestamp", "revert_time", "instance_id", "ports", "host", "challenge"]
+      }
+    ]
+  },
+  "git": {
+    "current_branch": "main",
+    "commits": {
+      "phase_b_complete": "e20fc133",
+      "pre_plugin": "3e3b1375",
+      "baseline": "8b63f26e"
+    }
+  },
+  "dependencies": {
+    "python": {
+      "Flask": "2.1.3",
+      "Flask-WTF": "1.0.1",
+      "requests": "2.32.4",
+      "gunicorn": "23.0.0"
+    },
+    "docker": {
+      "docker-socket-proxy": "latest",
+      "nginx": "stable",
+      "mariadb": "10.11",
+      "redis": "4"
+    }
+  },
+  "configuration": {
+    "docker_connection": {
+      "hostname": "docker-proxy:2375",
+      "protocol": "http",
+      "tls": false,
+      "verified": true
+    },
+    "container_limits": {
+      "per_user": 1,
+      "port_range": "30000-60000",
+      "revert_timer_seconds": 300,
+      "stale_cleanup_seconds": 7200
+    }
+  },
+  "testing": {
+    "status": "Verified",
+    "automated_tests": [
+      "CTFd startup",
+      "Plugin loading",
+      "Docker connectivity",
+      "Core CTFd functions",
+      "Admin panel access"
+    ],
+    "manual_tests_required": [
+      "Container spawning per team",
+      "Instance isolation verification",
+      "Challenge submission workflow"
+    ]
+  },
+  "contacts": {
+    "lead_engineer": "Balakumaran",
+    "repository": "https://github.com/balakumaran1507/CYBERCOM_CTF_2026.git"
+  },
+  "license": "Proprietary (2026), based on CTFd (Apache 2.0)",
+  "last_updated": "2025-11-21T20:35:00Z"
+}
