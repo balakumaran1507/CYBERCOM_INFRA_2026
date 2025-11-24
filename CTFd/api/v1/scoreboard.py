@@ -64,7 +64,9 @@ class ScoreboardList(Resource):
             # Get user_standings as a dict so that we can more quickly get member scores
             user_standings = get_user_standings()
             for u in user_standings:
-                membership[u.team_id][u.user_id]["score"] = int(u.score)
+                # Safety check: only update score if user exists in membership (not hidden/banned)
+                if u.team_id in membership and u.user_id in membership[u.team_id]:
+                    membership[u.team_id][u.user_id]["score"] = int(u.score)
 
         for i, x in enumerate(standings):
             entry = {

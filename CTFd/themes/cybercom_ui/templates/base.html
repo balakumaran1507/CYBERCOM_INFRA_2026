@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% if title %}{{ title }} | {% endif %}CYBERCOM CTF 2026</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="{{ Configs.ctf_small_icon }}" type="image/x-icon">
+
+  {{ meta | safe }}
+
+  {% block stylesheets %}
+    {{ Assets.css("assets/scss/main.scss") }}
+
+    <!-- CYBERCOM Custom Styles -->
+    <style>
+      :root {
+        --cybercom-primary: #00ff41;
+        --cybercom-accent: #00d4ff;
+        --cybercom-dark: #0a0e27;
+        --cybercom-surface: #1a1f3a;
+        --cybercom-text: #e0e0e0;
+      }
+
+      /* Dark theme override */
+      [data-theme="dark"] {
+        --bs-body-bg: var(--cybercom-dark);
+        --bs-body-color: var(--cybercom-text);
+      }
+
+      /* Navbar styling */
+      .navbar-dark {
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%) !important;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+      }
+
+      .navbar-brand {
+        font-family: 'Rajdhani', 'Arial Black', sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        color: var(--cybercom-primary) !important;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+      }
+
+      .nav-link {
+        color: var(--cybercom-text) !important;
+        transition: color 0.2s ease;
+      }
+
+      .nav-link:hover {
+        color: var(--cybercom-primary) !important;
+      }
+
+      /* Challenge cards */
+      .challenge-button {
+        background: var(--cybercom-surface) !important;
+        border: 1px solid rgba(0, 255, 65, 0.3) !important;
+        color: var(--cybercom-text) !important;
+        transition: all 0.3s ease;
+        min-height: 120px;
+      }
+
+      .challenge-button:hover {
+        border-color: var(--cybercom-primary) !important;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .challenge-solved {
+        background: rgba(0, 255, 65, 0.15) !important;
+        border-color: var(--cybercom-primary) !important;
+      }
+
+      .challenge-inner p {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+      }
+
+      .challenge-inner span {
+        color: var(--cybercom-accent);
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+      }
+
+      /* Jumbotron header */
+      .jumbotron {
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+        border-bottom: 2px solid rgba(0, 255, 65, 0.3);
+        padding: 3rem 0;
+      }
+
+      .jumbotron h1 {
+        color: var(--cybercom-primary);
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+      }
+
+      /* Category headers */
+      .category-header h3 {
+        color: var(--cybercom-accent);
+        font-family: 'Courier New', monospace;
+        font-size: 1.5rem;
+        border-left: 4px solid var(--cybercom-primary);
+        padding-left: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Footer */
+      .footer {
+        background: var(--cybercom-dark);
+        border-top: 1px solid rgba(0, 255, 65, 0.2);
+        padding: 2rem 0;
+      }
+
+      .footer small {
+        color: var(--cybercom-primary) !important;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+      }
+
+      /* Buttons */
+      .btn-primary {
+        background: var(--cybercom-primary) !important;
+        border-color: var(--cybercom-primary) !important;
+        color: #000 !important;
+        font-weight: 600;
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+      }
+
+      /* Forms */
+      input, textarea, select {
+        background: var(--cybercom-surface) !important;
+        border: 1px solid rgba(0, 255, 65, 0.3) !important;
+        color: var(--cybercom-text) !important;
+      }
+
+      input:focus, textarea:focus, select:focus {
+        border-color: var(--cybercom-primary) !important;
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.2) !important;
+      }
+
+      /* Spinner */
+      .fa-spin.spinner {
+        color: var(--cybercom-primary);
+      }
+    </style>
+
+    <!-- Google Fonts: Rajdhani -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  {% endblock %}
+
+  {{ Plugins.styles }}
+
+  {{ Assets.js("assets/js/color_mode_switcher.js", type=None) }}
+
+  <script type="text/javascript">
+      window.init = {
+          'urlRoot': "{{ request.script_root }}",
+          'csrfNonce': "{{ Session.nonce }}",
+          'userMode': "{{ Configs.user_mode }}",
+          'userId': {{ Session.id }},
+          'userName': {{ User.name | tojson }},
+          'userEmail': {{ User.email | tojson }},
+          'userVerified': {{ User.verified | tojson }},
+          'teamId': {{ Team.id | tojson }},
+          'teamName': {{ Team.name | tojson }},
+          'start': {{ Configs.start | tojson }},
+          'end': {{ Configs.end | tojson }},
+          'themeSettings': {{ Configs.theme_settings | tojson }},
+          'eventSounds': [
+            "/themes/core/static/sounds/notification.webm",
+            "/themes/core/static/sounds/notification.mp3",
+          ],
+      }
+  </script>
+
+  {{ Configs.theme_header }}
+</head>
+<body>
+{% include "components/navbar.html" %}
+
+<main role="main">
+  {% block content %}
+  {% endblock %}
+</main>
+
+{% include "components/snackbar.html" %}
+
+<footer class="footer">
+  <div class="container text-center">
+    <small>
+      <span style="color: var(--cybercom-primary);">█▓▒░</span>
+      CYBERCOM CTF 2026
+      <span style="color: var(--cybercom-primary);">░▒▓█</span>
+      <span style="opacity: 0.6;"> | Engineered for Excellence in Cybersecurity</span>
+    </small>
+  </div>
+</footer>
+
+{% include "components/notifications.html" %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/page.js") }}
+{% endblock %}
+
+{{ Plugins.scripts }}
+
+{{ Configs.theme_footer }}
+</body>
+</html>

@@ -42,7 +42,20 @@ def start_phase2_workers(app):
 
     # Initialize scheduler
     phase2_scheduler.init_app(app)
-    phase2_scheduler.start()
+
+    # Guard against scheduler already running (e.g., from Whale plugin or plugin reload)
+    try:
+        if not phase2_scheduler.running:
+            phase2_scheduler.start()
+            print("[PHASE2 WORKERS] ✅ Scheduler started")
+        else:
+            print("[PHASE2 WORKERS] ℹ️  Scheduler already running, reusing existing instance")
+    except Exception as e:
+        # Scheduler may already be running globally even if this instance reports not running
+        if "already running" in str(e).lower():
+            print(f"[PHASE2 WORKERS] ℹ️  Scheduler already active globally, proceeding with job registration")
+        else:
+            raise  # Re-raise if it's a different error
 
     # Worker 1: Challenge Health Monitoring
     if Phase2Config.HEALTH_ENABLED:

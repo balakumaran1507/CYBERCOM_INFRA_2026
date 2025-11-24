@@ -78,8 +78,12 @@ def load(app):
         start_phase2_workers(app)
         print("[PHASE2] ✅ Background workers started")
     except Exception as e:
-        print(f"[PHASE2] ❌ Worker startup failed: {e}")
-        return
+        # Allow "scheduler already running" to pass through - workers.py handles it
+        if "already running" not in str(e).lower():
+            print(f"[PHASE2] ❌ Worker startup failed: {e}")
+            return
+        else:
+            print(f"[PHASE2] ℹ️  Worker startup: {e} (continuing with job registration)")
 
     # 5. Register admin menu item (optional, for future UI)
     # register_admin_plugin_menu_bar(
