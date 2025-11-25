@@ -57,6 +57,10 @@ services:
     restart: always
     volumes:
       - .data/redis:/data
+    # Redis safeguards: prevent system-wide failure if disk write fails
+    # - save 60 1: save to disk every 60s if at least 1 key changed
+    # - loglevel warning: reduce log spam
+    command: redis-server --save 60 1 --loglevel warning
     networks:
       - internal
 

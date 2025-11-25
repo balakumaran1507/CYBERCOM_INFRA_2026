@@ -111,6 +111,38 @@ sudo lsof -i :80
 # Stop conflicting service or change ports in docker-compose.yml
 ```
 
+### Redis MISCONF Error
+**Symptom**: `MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk`
+
+**Root Cause**: Redis container (UID 999) cannot write to `.data/redis` directory due to permission mismatch.
+
+**Solution**:
+```bash
+# Stop containers (NOT docker compose down -v)
+docker compose down
+
+# Fix permissions - CHOOSE ONE:
+
+# Option A: World-writable (quick fix, works everywhere)
+chmod 777 .data/redis .data/mysql
+
+# Option B: Proper ownership (requires sudo, more secure)
+sudo chown -R 999:999 .data/redis .data/mysql
+chmod 755 .data/redis .data/mysql
+
+# Restart
+docker compose up -d
+```
+
+**Prevention**: Always run `./init-data-dirs.sh` before first deployment. This script sets correct permissions automatically.
+
+**Verification**:
+```bash
+docker compose logs cache --tail=20
+```
+
+Should NOT show "Permission denied" or "Background saving error".
+
 ### Cache Issues
 **Solution**:
 ```bash
