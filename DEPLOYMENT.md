@@ -2,21 +2,29 @@
 
 ## Quick Start (Fresh Machine)
 
+**Works on: Linux | macOS | WSL | Cloud (AWS/DigitalOcean)**
+
 ```bash
 # 1. Clone repository
 git clone https://github.com/balakumaran1507/CYBERCOM_INFRA_2026.git
 cd CYBERCOM_INFRA_2026
 
-# 2. Initialize data directories
+# 2. Initialize data directories (REQUIRED before first run)
 ./init-data-dirs.sh
 
-# 3. Build and start
+# 3. Build and start (health checks ensure proper startup order)
 docker compose build
 docker compose up -d
 
-# 4. Access platform
+# 4. Wait for services to be healthy (~30-60 seconds on fresh install)
+docker compose ps  # Check all services show "healthy" or "Up"
+
+# 5. Access platform
 # Open browser to: http://localhost:8000
 ```
+
+**IMPORTANT**: On fresh clones, the database needs ~30-60 seconds to initialize.
+Docker health checks ensure CTFd doesn't start until the database is ready.
 
 ## System Requirements
 

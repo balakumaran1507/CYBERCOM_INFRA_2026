@@ -106,19 +106,39 @@ def load(app):
     except Exception:
         warnings.warn("Initialization Failed. Please check your configs.", WhaleWarning)
 
+    # PORTABILITY FIX: Verify database tables exist before starting scheduler
+    # This prevents crashes on fresh clones where plugin tables aren't created yet
     try:
-        lock_file = open("/tmp/ctfd_whale.lock", "w")
-        lock_fd = lock_file.fileno()
-        fcntl.lockf(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        from sqlalchemy import inspect
+        inspector = inspect(app.db.engine)
+        required_tables = ['docker_config', 'docker_challenge', 'docker_challenge_tracker']
+        existing_tables = inspector.get_table_names()
 
-        scheduler = APScheduler()
-        scheduler.init_app(app)
-        scheduler.start()
-        scheduler.add_job(
-            id='whale-auto-clean', func=auto_clean_container,
-            trigger="interval", seconds=10
-        )
+        missing_tables = [t for t in required_tables if t not in existing_tables]
 
-        print("[CTFd Whale] Started successfully")
-    except IOError:
+        if missing_tables:
+            print(f"[CTFd Whale] ⚠️  Scheduler delayed: waiting for tables {missing_tables}")
+            print(f"[CTFd Whale] This is normal on first startup - tables will be created by migrations")
+            # Don't start scheduler yet - tables will be created by migrations
+            # On next restart, scheduler will start normally
+        else:
+            try:
+                lock_file = open("/tmp/ctfd_whale.lock", "w")
+                lock_fd = lock_file.fileno()
+                fcntl.lockf(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+                scheduler = APScheduler()
+                scheduler.init_app(app)
+                scheduler.start()
+                scheduler.add_job(
+                    id='whale-auto-clean', func=auto_clean_container,
+                    trigger="interval", seconds=10
+                )
+
+                print("[CTFd Whale] ✅ Started successfully")
+            except IOError:
+                print("[CTFd Whale] Scheduler lock held by another instance")
+                pass
+    except Exception as e:
+        print(f"[CTFd Whale] Scheduler startup check failed: {e}")
         pass

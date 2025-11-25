@@ -19,8 +19,13 @@ services:
       - .data/CTFd/uploads:/var/uploads
       - .:/opt/CTFd:ro
       - /var/run/docker.sock:/var/run/docker.sock
+    # CRITICAL: Wait for database to be HEALTHY, not just started
+    # Prevents "Table doesn't exist" errors on fresh clones
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
     networks:
       - default
       - internal
@@ -51,6 +56,14 @@ services:
     # Increase max_connections for production safety (default: 151)
     # Plus connection timeout and character set configuration
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0, --max_connections=500]
+    # Health check: ensures database is fully ready before CTFd starts
+    # Critical for fresh clones where DB needs initialization time
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
     networks:
       - internal
 

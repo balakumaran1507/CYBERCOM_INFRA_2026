@@ -74,16 +74,36 @@ def load(app):
         return
 
     # 4. Start background workers
+    # PORTABILITY FIX: Verify tables exist before starting scheduler
     try:
-        start_phase2_workers(app)
-        print("[PHASE2] ✅ Background workers started")
-    except Exception as e:
-        # Allow "scheduler already running" to pass through - workers.py handles it
-        if "already running" not in str(e).lower():
-            print(f"[PHASE2] ❌ Worker startup failed: {e}")
-            return
+        from sqlalchemy import inspect
+        inspector = inspect(app.db.engine)
+        required_tables = [
+            'phase2_first_blood_prestige',
+            'phase2_flag_sharing_suspicion',
+            'phase2_challenge_health_snapshot'
+        ]
+        existing_tables = inspector.get_table_names()
+        missing_tables = [t for t in required_tables if t not in existing_tables]
+
+        if missing_tables:
+            print(f"[PHASE2] ⚠️  Workers delayed: waiting for tables {missing_tables}")
+            print(f"[PHASE2] This is normal on first startup - tables will be created by migrations")
+            # Don't start workers yet - on next restart they'll start normally
         else:
-            print(f"[PHASE2] ℹ️  Worker startup: {e} (continuing with job registration)")
+            try:
+                start_phase2_workers(app)
+                print("[PHASE2] ✅ Background workers started")
+            except Exception as e:
+                # Allow "scheduler already running" to pass through - workers.py handles it
+                if "already running" not in str(e).lower():
+                    print(f"[PHASE2] ❌ Worker startup failed: {e}")
+                    return
+                else:
+                    print(f"[PHASE2] ℹ️  Worker startup: {e} (continuing with job registration)")
+    except Exception as e:
+        print(f"[PHASE2] Worker startup check failed: {e}")
+        pass
 
     # 5. Register admin menu item (optional, for future UI)
     # register_admin_plugin_menu_bar(
