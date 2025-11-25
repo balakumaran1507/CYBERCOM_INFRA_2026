@@ -167,6 +167,10 @@ def challenge_health_worker():
             print(f"[PHASE2 HEALTH ERROR] Health monitoring failed: {e}")
             import traceback
             traceback.print_exc()
+        finally:
+            # CRITICAL: Clean up database connections to prevent leak
+            db.session.remove()
+            db.engine.dispose()
 
 
 def analytics_worker():
@@ -201,6 +205,10 @@ def analytics_worker():
             print(f"[PHASE2 ANALYTICS ERROR] Analytics worker failed: {e}")
             import traceback
             traceback.print_exc()
+        finally:
+            # CRITICAL: Clean up database connections to prevent leak
+            db.session.remove()
+            db.engine.dispose()
 
 
 def cleanup_worker():
@@ -233,3 +241,7 @@ def cleanup_worker():
             print(f"[PHASE2 CLEANUP ERROR] Cleanup worker failed: {e}")
             import traceback
             traceback.print_exc()
+        finally:
+            # CRITICAL: Clean up database connections to prevent leak
+            db.session.remove()
+            db.engine.dispose()

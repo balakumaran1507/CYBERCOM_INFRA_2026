@@ -48,7 +48,9 @@ services:
       - MARIADB_AUTO_UPGRADE=1
     volumes:
       - .data/mysql:/var/lib/mysql
-    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+    # Increase max_connections for production safety (default: 151)
+    # Plus connection timeout and character set configuration
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0, --max_connections=500]
     networks:
       - internal
 
