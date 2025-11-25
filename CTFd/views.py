@@ -196,23 +196,173 @@ def setup():
                 default_ctf_banner_location = url_for("views.files", path=f.location)
                 set_config("ctf_banner", f.location)
 
-            # Splice in our banner
-            index = f"""<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <img class="w-100 mx-auto d-block" style="max-width: 500px;padding: 50px;padding-top: 14vh;" src="{default_ctf_banner_location}" />
-        <h3 class="text-center">
-            <p>A cool CTF platform from <a href="https://ctfd.io">ctfd.io</a></p>
-            <p>Follow us on social media:</p>
-            <a href="https://twitter.com/ctfdio"><i class="fab fa-twitter fa-2x" aria-hidden="true"></i></a>&nbsp;
-            <a href="https://facebook.com/ctfdio"><i class="fab fa-facebook fa-2x" aria-hidden="true"></i></a>&nbsp;
-            <a href="https://github.com/ctfd"><i class="fab fa-github fa-2x" aria-hidden="true"></i></a>
-        </h3>
-        <br>
-        <h4 class="text-center">
-            <a href="admin">Click here</a> to login and setup your CTF
-        </h4>
+            # CYBERCOM Landing Page
+            index = f"""
+<style>
+:root {{
+    --cyber-black: #000000;
+    --electric-blue: #008cff;
+    --sharp-red: #ff0022;
+    --grid-dark: #0a0a0a;
+}}
+
+.cybercom-hero {{
+    background: linear-gradient(135deg, var(--cyber-black) 0%, var(--grid-dark) 100%);
+    padding: 100px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--electric-blue);
+}}
+
+.cybercom-hero h1 {{
+    font-family: 'Orbitron', 'JetBrains Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--electric-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
+}}
+
+.cybercom-hero .status-badge {{
+    display: inline-block;
+    background: var(--sharp-red);
+    color: white;
+    padding: 8px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+    border: 1px solid var(--sharp-red);
+    box-shadow: 0 0 15px rgba(255, 0, 34, 0.6);
+}}
+
+.cybercom-hero .tagline {{
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+}}
+
+.cybercom-hero .cta-buttons {{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+}}
+
+.cybercom-hero .btn-primary {{
+    background: var(--electric-blue);
+    border: 1px solid var(--electric-blue);
+    color: white;
+    padding: 15px 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+    box-shadow: 0 0 15px rgba(0, 140, 255, 0.4);
+}}
+
+.cybercom-hero .btn-primary:hover {{
+    background: transparent;
+    box-shadow: 0 0 25px rgba(0, 140, 255, 0.8);
+    transform: translateY(-2px);
+}}
+
+.cybercom-stats {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 60px 20px;
+    background: var(--grid-dark);
+    border-bottom: 1px solid rgba(0, 140, 255, 0.2);
+}}
+
+.stat-card {{
+    text-align: center;
+    padding: 20px;
+    border: 1px solid rgba(0, 140, 255, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+}}
+
+.stat-card .value {{
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--electric-blue);
+    display: block;
+}}
+
+.stat-card .label {{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-top: 10px;
+}}
+
+.cybercom-admin-link {{
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--cyber-black);
+}}
+
+.cybercom-admin-link a {{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--electric-blue);
+    text-decoration: none;
+    border-bottom: 1px solid var(--electric-blue);
+    transition: all 0.3s;
+}}
+
+.cybercom-admin-link a:hover {{
+    color: white;
+    border-bottom-color: white;
+}}
+</style>
+
+<div class="cybercom-hero">
+    <div class="status-badge">● SYSTEM READY</div>
+    <h1>CYBERCOM CTF 2026</h1>
+    <p class="tagline">
+        Production-grade Capture The Flag infrastructure.
+        Elite-level challenges. Real-world security operations.
+    </p>
+    <div class="cta-buttons">
+        <a href="/challenges" class="btn btn-primary">ENTER CHALLENGES</a>
+        <a href="/scoreboard" class="btn btn-primary">VIEW SCOREBOARD</a>
     </div>
-</div>"""
+</div>
+
+<div class="cybercom-stats">
+    <div class="stat-card">
+        <span class="value">45+</span>
+        <span class="label">Challenges</span>
+    </div>
+    <div class="stat-card">
+        <span class="value">500+</span>
+        <span class="label">Operators</span>
+    </div>
+    <div class="stat-card">
+        <span class="value">3.2K</span>
+        <span class="label">Flags Captured</span>
+    </div>
+    <div class="stat-card">
+        <span class="value">8</span>
+        <span class="label">Categories</span>
+    </div>
+</div>
+
+<div class="cybercom-admin-link">
+    <a href="/admin">SYSTEM ADMINISTRATION →</a>
+</div>
+"""
             page.content = index
 
             # Visibility
