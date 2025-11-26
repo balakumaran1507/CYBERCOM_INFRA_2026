@@ -17,10 +17,10 @@ body {
 
 .setup-hero {
 	background: linear-gradient(135deg, var(--cyber-black) 0%, var(--grid-dark) 100%);
-	padding: 60px 20px 40px;
+	padding: 30px 20px 40px;
 	text-align: center;
 	border-bottom: 1px solid var(--electric-blue);
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .setup-hero h1 {
@@ -62,7 +62,7 @@ body {
 
 .nav-pills .nav-link {
 	background: transparent;
-	color: rgba(255, 255, 255, 0.6);
+	color: rgba(255, 255, 255, 0.85);
 	border: 1px solid rgba(0, 140, 255, 0.2);
 	font-family: 'JetBrains Mono', monospace;
 	font-size: 0.85rem;
@@ -76,7 +76,7 @@ body {
 	background: var(--electric-blue);
 	border-color: var(--electric-blue);
 	color: white;
-	box-shadow: 0 0 15px rgba(0, 140, 255, 0.6);
+	box-shadow: 0 0 5px rgba(0, 140, 255, 0.3);
 }
 
 .nav-pills .nav-link:hover {
@@ -216,7 +216,7 @@ b, label {
 						</small>
 					</div>
 
-					<div class="text-right float-end">
+					<div class="text-end mb-3">
 						<button type="button" class="btn btn-primary btn-outlined tab-next" data-href="#mode" @click="switchTab">
 							{% trans %}Next{% endtrans %}
 						</button>
@@ -269,7 +269,7 @@ b, label {
 						</div>
 					</div>
 
-					<div class="text-right float-end">
+					<div class="text-end mb-3">
 						<button type="button" class="btn btn-primary btn-outlined tab-next" data-href="#settings" @click="switchTab">
 							{% trans %}Next{% endtrans %}
 						</button>
@@ -334,7 +334,7 @@ b, label {
 						</small>
 					</div>
 
-					<div class="text-right float-end">
+					<div class="text-end mb-3">
 						<button type="button" class="btn btn-primary btn-outlined tab-next" data-href="#administration" @click="switchTab">
 							{% trans %}Next{% endtrans %}
 						</button>
@@ -364,7 +364,7 @@ b, label {
 						</small>
 					</div>
 
-					<div class="text-right float-end">
+					<div class="text-end mb-3">
 						<button type="button" class="btn btn-primary btn-outlined tab-next" data-href="#style" @click="switchTab">
 							{% trans %}Next{% endtrans %}
 						</button>
@@ -423,7 +423,7 @@ b, label {
 							</small>
 						</div>
 					</div>
-					<div class="text-right float-end">
+					<div class="text-end mb-3">
 						<button type="button" class="btn btn-primary btn-outlined tab-next" data-href="#datetime" @click="switchTab">
 							{% trans %}Next{% endtrans %}
 						</button>
@@ -473,7 +473,7 @@ b, label {
 						</small>
 					</div>
 
-					<div class="text-right float-end">
+					<div class="text-end mb-3">
 						<button type="button" class="btn btn-primary btn-outlined tab-next" data-href="#integrations" @click="switchTab">
 							{% trans %}Next{% endtrans %}
 						</button>
@@ -493,7 +493,7 @@ b, label {
 					<hr>
 					<br>
 
-					<div class="submit-row text-right float-end">
+					<div class="submit-row text-end mb-3">
 						{{ form.submit(class="btn btn-md btn-primary btn-outlined") }}
 					</div>
 				</div>
