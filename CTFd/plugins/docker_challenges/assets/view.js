@@ -188,17 +188,17 @@ function start_container(container) {
 function updateWarningModal({
     title , warningText, buttonText, onClose } = {}) {
     const modalHTML = `
-        <div id="warningModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background-color:rgba(0,0,0,0.5);">
-          <div style="position:relative; margin:10% auto; width:400px; background:white; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.3); overflow:hidden;">
-            <div class="modal-header bg-warning text-dark" style="padding:1rem; display:flex; justify-content:space-between; align-items:center;">
-              <h5 class="modal-title" style="margin:0;">${title}</h5>
-              <button type="button" id="warningCloseBtn" style="border:none; background:none; font-size:1.5rem; line-height:1; cursor:pointer;">&times;</button>
+        <div id="warningModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background-color:rgba(0,0,0,0.8);">
+          <div style="position:relative; margin:10% auto; width:450px; background:#000000; border:1px solid #008cff; border-radius:0; box-shadow:0 0 30px rgba(0, 140, 255, 0.3); overflow:hidden; font-family:'JetBrains Mono',monospace;">
+            <div class="modal-header" style="padding:1rem; display:flex; justify-content:space-between; align-items:center; background:#000000; border-bottom:1px solid #008cff;">
+              <h5 class="modal-title" style="margin:0; color:#008cff; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; font-size:0.9rem;">⚠ ${title}</h5>
+              <button type="button" id="warningCloseBtn" style="border:none; background:none; font-size:1.5rem; line-height:1; cursor:pointer; color:#008cff; transition:color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#008cff'">&times;</button>
             </div>
-            <div class="modal-body" style="padding:1rem;">
+            <div class="modal-body" style="padding:1.5rem; color:#ffffff; font-size:0.9rem; line-height:1.6;">
               ${warningText}
             </div>
-            <div class="modal-footer" style="padding:1rem; text-align:right; border-top:1px solid #dee2e6;">
-              <button type="button" class="btn btn-secondary" id="warningOkBtn">${buttonText}</button>
+            <div class="modal-footer" style="padding:1rem; text-align:right; border-top:1px solid rgba(0, 140, 255, 0.3); background:#000000;">
+              <button type="button" id="warningOkBtn" style="background:#008cff; border:1px solid #008cff; color:#ffffff; padding:0.5rem 1.5rem; font-family:'JetBrains Mono',monospace; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; cursor:pointer; transition:all 0.3s; font-size:0.85rem;" onmouseover="this.style.background='transparent'; this.style.color='#008cff'" onmouseout="this.style.background='#008cff'; this.style.color='#ffffff'">${buttonText}</button>
             </div>
           </div>
         </div>
