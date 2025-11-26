@@ -215,7 +215,7 @@ def setup():
 
 .cybercom-hero h1 {{
     font-family: 'Orbitron', 'JetBrains Mono', monospace;
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: 900;
     color: var(--electric-blue);
     text-transform: uppercase;
