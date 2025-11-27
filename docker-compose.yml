@@ -1,13 +1,12 @@
 services:
   ctfd:
     build: .
-    user: root
     restart: always
     ports:
       - "8000:8000"
     environment:
       - UPLOAD_FOLDER=/var/uploads
-      - DATABASE_URL=mysql+pymysql://ctfd:ctfd@db/ctfd
+      - DATABASE_URL=mysql+pymysql://${MARIADB_USER:-ctfd}:${MARIADB_PASSWORD:-ctfd}@db/${MARIADB_DATABASE:-ctfd}
       - REDIS_URL=redis://cache:6379
       - WORKERS=1
       - LOG_FOLDER=/var/log/CTFd
@@ -26,6 +25,15 @@ services:
         condition: service_healthy
       cache:
         condition: service_started
+    # Resource limits for 1000+ concurrent users
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 1G
     networks:
       - default
       - internal
@@ -39,6 +47,15 @@ services:
       - 80:80
     depends_on:
       - ctfd
+    # Resource limits for reverse proxy
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
     networks:
       - default
 
@@ -46,10 +63,10 @@ services:
     image: mariadb:10.11
     restart: always
     environment:
-      - MARIADB_ROOT_PASSWORD=ctfd
-      - MARIADB_USER=ctfd
-      - MARIADB_PASSWORD=ctfd
-      - MARIADB_DATABASE=ctfd
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-ctfd}
+      - MARIADB_USER=${MARIADB_USER:-ctfd}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-ctfd}
+      - MARIADB_DATABASE=${MARIADB_DATABASE:-ctfd}
       - MARIADB_AUTO_UPGRADE=1
     volumes:
       - .data/mysql:/var/lib/mysql
@@ -64,6 +81,15 @@ services:
       timeout: 5s
       retries: 12
       start_period: 30s
+    # Resource limits for database server
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
     networks:
       - internal
 
@@ -76,6 +102,15 @@ services:
     # - save 60 1: save to disk every 60s if at least 1 key changed
     # - loglevel warning: reduce log spam
     command: redis-server --save 60 1 --loglevel warning
+    # Resource limits for cache server
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
     networks:
       - internal
 
@@ -94,6 +129,15 @@ services:
       - POST=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    # Resource limits for Docker socket proxy
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
     networks:
       - default
 

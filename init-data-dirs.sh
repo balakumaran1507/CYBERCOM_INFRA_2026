@@ -42,23 +42,23 @@ OWNERSHIP_SET=false
 if command -v sudo &> /dev/null && sudo -n true 2>/dev/null; then
     echo "[CYBERCOM] Setting proper ownership (UID 999 for database containers)..."
     if sudo chown -R 999:999 .data/mysql .data/redis 2>/dev/null; then
-        chmod 755 .data/mysql
-        chmod 755 .data/redis
-        chmod 755 .data/CTFd/logs
-        chmod 755 .data/CTFd/uploads
+        chmod -R 755 .data/mysql
+        chmod -R 755 .data/redis
+        chmod -R 755 .data/CTFd/logs
+        chmod -R 755 .data/CTFd/uploads
         OWNERSHIP_SET=true
-        echo "[CYBERCOM] ✅ Proper ownership set (UID 999)"
+        echo "[CYBERCOM] ✅ Proper ownership set recursively (UID 999)"
     fi
 fi
 
 # Fallback: World-writable (works on all systems without sudo)
 if [ "$OWNERSHIP_SET" = false ]; then
-    echo "[CYBERCOM] Setting world-writable permissions (no sudo available)..."
-    chmod 777 .data/mysql
-    chmod 777 .data/redis
-    chmod 777 .data/CTFd/logs
-    chmod 777 .data/CTFd/uploads
-    echo "[CYBERCOM] ✅ World-writable permissions set (compatible with all systems)"
+    echo "[CYBERCOM] Setting world-writable permissions recursively (no sudo available)..."
+    chmod -R 777 .data/mysql
+    chmod -R 777 .data/redis
+    chmod -R 777 .data/CTFd/logs
+    chmod -R 777 .data/CTFd/uploads
+    echo "[CYBERCOM] ✅ World-writable permissions set recursively (fixes existing files)"
 fi
 
 # Platform-specific notes
