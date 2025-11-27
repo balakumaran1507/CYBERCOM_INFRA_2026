@@ -76,12 +76,13 @@ services:
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0, --max_connections=500]
     # Health check: ensures database is fully ready before CTFd starts
     # Critical for fresh clones where DB needs initialization time
+    # Increased timeout/retries for macOS Docker Desktop compatibility
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      interval: 5s
-      timeout: 5s
-      retries: 12
-      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
     # Resource limits for database server
     deploy:
       resources:
