@@ -1,6 +1,7 @@
 services:
   ctfd:
     build: .
+    user: root  # TODO: Remove after fixing plugin file permissions for rootless (UID 1001)
     restart: always
     ports:
       - "8000:8000"
