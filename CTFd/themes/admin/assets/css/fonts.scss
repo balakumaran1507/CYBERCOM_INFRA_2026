@@ -1,26 +1,10 @@
-@use "sass:map";
-@use "~/@fontsource/lato/scss/mixins.scss" as Lato;
-@use "~/@fontsource/raleway/scss/mixins.scss" as Raleway;
+// CYBERCOM Admin Panel - Font System
+// Japanese Cyber Minimal Design
 
-@include Lato.faces(
-  $subsets: all,
-  $weights: (
-    400,
-    700,
-  ),
-  $styles: all,
-  $directory: "../webfonts"
-);
+// Google Fonts Import
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-@include Raleway.faces(
-  $subsets: all,
-  $weights: (
-    500,
-  ),
-  $styles: all,
-  $directory: "../webfonts"
-);
-
+// Font Awesome
 $fa-font-display: auto !default;
 @import "~/@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~/@fortawesome/fontawesome-free/scss/regular.scss";
