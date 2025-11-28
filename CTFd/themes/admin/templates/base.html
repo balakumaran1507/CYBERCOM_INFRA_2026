@@ -232,21 +232,151 @@
 		</div>
 	</nav>
 
-	<main role="main">
-		{% if get_config('version_latest') %}
-		<div class="container-fluid bg-warning text-center py-3">
-			<div class="row">
-				<div class="col-md-12">
-					<a class="btn btn-warning" href="{{ get_config('version_latest') }}">
-						A new CTFd version is available!
-					</a>
+	<!-- CYBERCOM Admin Shell with CSS Grid -->
+	<div class="cybercom-admin-shell">
+		<!-- Persistent Sidebar -->
+		<aside id="cybercom-sidebar" class="cybercom-sidebar">
+			<div class="sidebar-header">
+				<div class="sidebar-brand">
+					<span class="brand-icon">▸</span>
+					<span class="brand-text">ADMIN</span>
+				</div>
+				<button id="sidebar-collapse-btn" class="sidebar-collapse-btn" aria-label="Toggle sidebar">
+					<i class="fas fa-bars"></i>
+				</button>
+			</div>
+
+			<nav class="sidebar-nav">
+				<!-- Dashboard -->
+				<a href="{{ url_for('admin.statistics') }}"
+				   class="nav-item {{ 'active' if request.endpoint == 'admin.statistics' }}">
+					<i class="fas fa-chart-line nav-icon"></i>
+					<span class="nav-label">Statistics</span>
+				</a>
+
+				<!-- Notifications -->
+				<a href="{{ url_for('admin.notifications') }}"
+				   class="nav-item {{ 'active' if request.endpoint == 'admin.notifications' }}">
+					<i class="fas fa-bell nav-icon"></i>
+					<span class="nav-label">Notifications</span>
+				</a>
+
+				<!-- Section: Content -->
+				<div class="nav-divider"></div>
+				<div class="nav-section-title">
+					<i class="fas fa-angle-right nav-section-icon"></i>
+					CONTENT
+				</div>
+
+				<a href="{{ url_for('admin.pages_listing') }}"
+				   class="nav-item {{ 'active' if 'pages' in request.endpoint }}">
+					<i class="fas fa-file-alt nav-icon"></i>
+					<span class="nav-label">Pages</span>
+				</a>
+
+				<!-- Section: Users & Teams -->
+				<div class="nav-divider"></div>
+				<div class="nav-section-title">
+					<i class="fas fa-angle-right nav-section-icon"></i>
+					ACCESS CONTROL
+				</div>
+
+				<a href="{{ url_for('admin.users_listing') }}"
+				   class="nav-item {{ 'active' if 'users' in request.endpoint }}">
+					<i class="fas fa-users nav-icon"></i>
+					<span class="nav-label">Users</span>
+				</a>
+
+				{% if get_config('user_mode') == 'teams' %}
+				<a href="{{ url_for('admin.teams_listing') }}"
+				   class="nav-item {{ 'active' if 'teams' in request.endpoint }}">
+					<i class="fas fa-user-friends nav-icon"></i>
+					<span class="nav-label">Teams</span>
+				</a>
+				{% endif %}
+
+				<a href="{{ url_for('admin.scoreboard_listing') }}"
+				   class="nav-item {{ 'active' if 'scoreboard' in request.endpoint }}">
+					<i class="fas fa-trophy nav-icon"></i>
+					<span class="nav-label">Scoreboard</span>
+				</a>
+
+				<!-- Section: Challenges -->
+				<div class="nav-divider"></div>
+				<div class="nav-section-title">
+					<i class="fas fa-angle-right nav-section-icon"></i>
+					CHALLENGES
+				</div>
+
+				<a href="{{ url_for('admin.challenges_listing') }}"
+				   class="nav-item {{ 'active' if 'challenges' in request.endpoint }}">
+					<i class="fas fa-flag nav-icon"></i>
+					<span class="nav-label">Challenges</span>
+				</a>
+
+				<a href="{{ url_for('admin.submissions_listing') }}"
+				   class="nav-item {{ 'active' if 'submissions' in request.endpoint }}">
+					<i class="fas fa-clipboard-check nav-icon"></i>
+					<span class="nav-label">Submissions</span>
+				</a>
+
+				<!-- Section: System -->
+				<div class="nav-divider"></div>
+				<div class="nav-section-title">
+					<i class="fas fa-angle-right nav-section-icon"></i>
+					SYSTEM
+				</div>
+
+				<a href="{{ url_for('admin.config') }}"
+				   class="nav-item {{ 'active' if request.endpoint == 'admin.config' }}">
+					<i class="fas fa-cog nav-icon"></i>
+					<span class="nav-label">Configuration</span>
+				</a>
+
+				<!-- Plugins -->
+				{% set plugins = get_menubar_plugins() %}
+				{% if plugins %}
+				<div class="nav-divider"></div>
+				<div class="nav-section-title">
+					<i class="fas fa-angle-right nav-section-icon"></i>
+					PLUGINS
+				</div>
+				{% for plugin in plugins %}
+				<a href="{{ request.script_root }}{{ plugin.route }}"
+				   class="nav-item">
+					<i class="fas fa-puzzle-piece nav-icon"></i>
+					<span class="nav-label">{{ plugin.name }}</span>
+				</a>
+				{% endfor %}
+				{% endif %}
+			</nav>
+
+			<!-- Sidebar footer -->
+			<div class="sidebar-footer">
+				<div class="sidebar-status">
+					<span class="status-indicator"></span>
+					<span class="status-text">SYSTEM OPERATIONAL</span>
 				</div>
 			</div>
-		</div>
-		{% endif %}
-		{% block content %}
-		{% endblock %}
-	</main>
+		</aside>
+
+		<!-- Main content area -->
+		<main id="cybercom-content" role="main">
+			{% if get_config('version_latest') %}
+			<div class="container-fluid bg-warning text-center py-3">
+				<div class="row">
+					<div class="col-md-12">
+						<a class="btn btn-warning" href="{{ get_config('version_latest') }}">
+							A new CTFd version is available!
+						</a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% block content %}
+			{% endblock %}
+		</main>
+	</div>
 
 	<footer class="footer pt-2">
 		<div class="container text-center">

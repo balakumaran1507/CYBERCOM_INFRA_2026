@@ -26,4 +26,52 @@ $(() => {
   styles();
   times();
   events(CTFd.config.urlRoot);
+
+  // ==========================================
+  // CYBERCOM SIDEBAR FUNCTIONALITY
+  // ==========================================
+  const $shell = $(".cybercom-admin-shell");
+  const $sidebar = $(".cybercom-sidebar");
+  const $collapseBtn = $("#sidebar-collapse-btn");
+
+  // Desktop collapse toggle
+  $collapseBtn.on("click", function () {
+    $shell.toggleClass("sidebar-collapsed");
+
+    // Save state
+    const isCollapsed = $shell.hasClass("sidebar-collapsed");
+    localStorage.setItem("cybercom-sidebar-collapsed", isCollapsed);
+
+    // Trigger resize for graphs/charts
+    $(window).trigger("resize");
+  });
+
+  // Restore collapsed state
+  const savedState = localStorage.getItem("cybercom-sidebar-collapsed");
+  if (savedState === "true") {
+    $shell.addClass("sidebar-collapsed");
+  }
+
+  // Mobile menu toggle
+  if ($(window).width() <= 992) {
+    // Toggle sidebar on mobile via navbar toggler
+    $(".navbar-toggler").on("click", function () {
+      $sidebar.toggleClass("mobile-open");
+    });
+
+    // Close on link click
+    $(".cybercom-sidebar .nav-item").on("click", function () {
+      $sidebar.removeClass("mobile-open");
+    });
+
+    // Close on outside click
+    $(document).on("click", function (e) {
+      if (
+        !$(e.target).closest(".cybercom-sidebar, .navbar-toggler").length &&
+        $sidebar.hasClass("mobile-open")
+      ) {
+        $sidebar.removeClass("mobile-open");
+      }
+    });
+  }
 });
