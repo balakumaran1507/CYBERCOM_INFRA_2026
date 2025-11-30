@@ -26,117 +26,799 @@
 		}
 	</script>
 
-	<!-- CYBERCOM Admin Panel Custom Styles -->
+
+	<!-- CYBERCOM Admin - 2025 Modern UI Design -->
 	<style>
-		/* Navbar CYBERCOM Styling */
-		.navbar-dark {
-			background: var(--cyber-black) !important;
-			border-bottom: 1px solid var(--cyber-border);
-			backdrop-filter: blur(10px);
-			padding: 1rem 0;
+		/* ==================== GOOGLE FONTS ==================== */
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+		/* ==================== MODERN COLOR SYSTEM ==================== */
+		:root {
+			/* Vibrant Modern Palette */
+			--primary: #6366f1;
+			--primary-hover: #4f46e5;
+			--primary-light: #eef2ff;
+
+			--secondary: #8b5cf6;
+			--secondary-hover: #7c3aed;
+
+			--accent: #06b6d4;
+			--accent-hover: #0891b2;
+
+			--success: #10b981;
+			--success-light: #d1fae5;
+
+			--warning: #f59e0b;
+			--warning-light: #fef3c7;
+
+			--danger: #ef4444;
+			--danger-light: #fee2e2;
+
+			/* Backgrounds */
+			--bg-base: #fafbfc;
+			--bg-surface: #ffffff;
+			--bg-elevated: #ffffff;
+
+			/* Text */
+			--text-primary: #0f172a;
+			--text-secondary: #475569;
+			--text-tertiary: #94a3b8;
+
+			/* Borders */
+			--border-light: #e2e8f0;
+			--border-medium: #cbd5e1;
+			--border-heavy: #94a3b8;
+
+			/* Sidebar - Vibrant Gradient */
+			--sidebar-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+			--sidebar-text: #e2e8f0;
+			--sidebar-text-hover: #ffffff;
+			--sidebar-active: #6366f1;
+			--sidebar-active-bg: rgba(99, 102, 241, 0.1);
+
+			/* Shadows - Modern Multi-layer */
+			--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+			--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+			--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+			--shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+			/* Spacing - 8px Grid System */
+			--space-1: 4px;
+			--space-2: 8px;
+			--space-3: 12px;
+			--space-4: 16px;
+			--space-5: 20px;
+			--space-6: 24px;
+			--space-8: 32px;
+			--space-10: 40px;
+			--space-12: 48px;
+
+			/* Border Radius - Modern */
+			--radius-sm: 6px;
+			--radius-md: 8px;
+			--radius-lg: 12px;
+			--radius-xl: 16px;
+			--radius-full: 9999px;
 		}
 
-		.navbar-brand {
-			font-family: 'Orbitron', monospace;
-			font-weight: 900;
-			font-size: 1.1rem;
-			color: var(--cyber-white) !important;
-			text-transform: uppercase;
-			letter-spacing: 0.15em;
+		/* ==================== GLOBAL RESET & TYPOGRAPHY ==================== */
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+			background: var(--bg-base) !important;
+			color: var(--text-primary) !important;
+			font-size: 14px;
+			line-height: 1.6;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+			font-weight: 700;
+			line-height: 1.3;
+		}
+
+		/* ==================== LAYOUT - MODERN GRID ==================== */
+		.cybercom-admin-shell {
+			display: block;
+			min-height: 100vh;
+			background: var(--bg-base);
+			padding-left: 320px;
+		}
+
+		/* ==================== SIDEBAR - MODERN GRADIENT DESIGN ==================== */
+		.cybercom-sidebar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 320px;
+			height: 100vh;
+			background: var(--sidebar-bg);
+			border-right: 1px solid rgba(255, 255, 255, 0.05);
+			display: flex;
+			flex-direction: column;
+			overflow-y: auto;
+			overflow-x: hidden;
+			z-index: 1000;
+			box-shadow: 4px 0 24px -8px rgba(0, 0, 0, 0.3);
+		}
+
+		/* Modern Scrollbar */
+		.cybercom-sidebar::-webkit-scrollbar {
+			width: 6px;
+		}
+
+		.cybercom-sidebar::-webkit-scrollbar-track {
+			background: rgba(0, 0, 0, 0.2);
+		}
+
+		.cybercom-sidebar::-webkit-scrollbar-thumb {
+			background: rgba(99, 102, 241, 0.5);
+			border-radius: var(--radius-full);
+		}
+
+		.cybercom-sidebar::-webkit-scrollbar-thumb:hover {
+			background: rgba(99, 102, 241, 0.7);
+		}
+
+		/* Sidebar Header - Blue Theme */
+		.sidebar-header {
+			padding: var(--space-6);
+			border-bottom: 2px solid #2563eb;
+			background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
 			position: relative;
-			padding-bottom: 0.3rem;
 		}
 
-		.navbar-brand::after {
+		.sidebar-header::after {
 			content: '';
 			position: absolute;
 			bottom: 0;
 			left: 0;
-			width: 100%;
+			right: 0;
 			height: 2px;
-			background: var(--cyber-blue);
-			box-shadow: 0 0 10px var(--cyber-blue-glow);
+			background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #2563eb 100%);
+			box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
 		}
 
-		.nav-link {
-			font-family: 'Noto Sans JP', sans-serif;
+		.sidebar-brand {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: var(--space-3);
+			font-family: 'Plus Jakarta Sans', sans-serif;
+			font-weight: 700;
+			font-size: 14px;
+			color: #ffffff;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			text-decoration: none;
+			transition: opacity 0.2s ease;
+		}
+
+		.sidebar-brand:hover {
+			opacity: 0.9;
+			text-decoration: none;
+			color: #ffffff;
+		}
+
+		.brand-icon {
+			width: 48px;
+			height: 48px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			background: transparent;
+			padding: 4px;
+		}
+
+		.brand-logo-img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+		}
+
+		.brand-text {
+			white-space: nowrap;
+		}
+
+		/* Sidebar Navigation - Modern */
+		.sidebar-nav {
+			flex: 1;
+			padding: var(--space-4) 0;
+		}
+
+		.nav-section-title {
+			padding: var(--space-4) var(--space-6) var(--space-2);
+			font-size: 11px;
+			font-weight: 700;
+			color: var(--text-tertiary);
+			letter-spacing: 1px;
+			text-transform: uppercase;
+		}
+
+		.cybercom-sidebar .nav-item {
+			display: flex;
+			align-items: center;
+			gap: var(--space-3);
+			padding: var(--space-3) var(--space-6);
+			margin: 2px var(--space-3);
+			color: var(--sidebar-text);
+			text-decoration: none;
+			border-radius: var(--radius-md);
+			transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+			font-size: 14px;
 			font-weight: 500;
-			font-size: 0.9rem;
-			color: var(--cyber-text-secondary) !important;
-			transition: all 0.2s ease;
 			position: relative;
-			padding: 0.5rem 1rem !important;
 		}
 
-		.nav-link:hover,
-		.nav-link.active {
-			color: var(--cyber-blue) !important;
-		}
-
-		.nav-link::before {
+		.cybercom-sidebar .nav-item::before {
 			content: '';
 			position: absolute;
-			bottom: 0;
-			left: 50%;
-			width: 0;
-			height: 2px;
-			background: var(--cyber-blue);
-			transform: translateX(-50%);
-			transition: width 0.2s ease;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 3px;
+			height: 0;
+			background: var(--primary);
+			border-radius: var(--radius-full);
+			transition: height 0.2s ease;
 		}
 
-		.nav-link:hover::before {
-			width: 80%;
+		.cybercom-sidebar .nav-item:hover {
+			background: rgba(255, 255, 255, 0.05);
+			color: var(--sidebar-text-hover);
+			transform: translateX(2px);
 		}
 
-		/* Dropdown menus */
-		.dropdown-toggle::after {
-			color: var(--cyber-blue);
-		}
-
-		/* Footer styling */
-		.footer {
-			background: var(--cyber-black);
-			border-top: 1px solid var(--cyber-border);
-			padding: 2rem 0;
-			margin-top: 3rem;
-		}
-
-		.footer a {
-			font-family: 'JetBrains Mono', monospace;
-			color: var(--cyber-text-dim);
-			font-size: 0.85rem;
-			text-transform: uppercase;
-			letter-spacing: 0.1em;
-			transition: color 0.2s ease;
-		}
-
-		.footer a:hover {
-			color: var(--cyber-blue);
-		}
-
-		.footer .text-muted {
-			font-family: 'JetBrains Mono', monospace;
-			font-size: 0.85rem;
-		}
-
-		/* Update notification banner */
-		.bg-warning.text-center {
-			background: rgba(255, 149, 0, 0.1) !important;
-			border-bottom: 1px solid #ff9500;
-		}
-
-		.bg-warning .btn-warning {
-			background: #ff9500 !important;
-			border-color: #ff9500 !important;
-			color: var(--cyber-black) !important;
-			font-family: 'JetBrains Mono', monospace;
+		.cybercom-sidebar .nav-item.active {
+			background: var(--sidebar-active-bg);
+			color: var(--sidebar-text-hover);
 			font-weight: 600;
 		}
 
-		.bg-warning .btn-warning:hover {
-			background: var(--cyber-white) !important;
-			border-color: var(--cyber-white) !important;
+		.cybercom-sidebar .nav-item.active::before {
+			height: 24px;
+		}
+
+		.cybercom-sidebar .nav-icon {
+			width: 20px;
+			height: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--primary);
+			font-size: 16px;
+		}
+
+		.nav-divider {
+			height: 1px;
+			background: rgba(255, 255, 255, 0.05);
+			margin: var(--space-4) var(--space-6);
+		}
+
+		/* Sidebar Footer - Modern */
+		.sidebar-footer {
+			padding: var(--space-4) var(--space-6);
+			border-top: 1px solid rgba(255, 255, 255, 0.05);
+			background: rgba(0, 0, 0, 0.2);
+		}
+
+		.sidebar-status {
+			display: flex;
+			align-items: center;
+			gap: var(--space-2);
+			padding: var(--space-2) var(--space-3);
+			background: rgba(16, 185, 129, 0.1);
+			border-radius: var(--radius-md);
+			font-size: 11px;
+			font-weight: 600;
+			color: var(--success);
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.status-indicator {
+			width: 8px;
+			height: 8px;
+			border-radius: var(--radius-full);
+			background: var(--success);
+			box-shadow: 0 0 12px var(--success);
+			animation: pulse-modern 2s ease-in-out infinite;
+		}
+
+		@keyframes pulse-modern {
+			0%, 100% {
+				opacity: 1;
+				transform: scale(1);
+			}
+			50% {
+				opacity: 0.7;
+				transform: scale(0.95);
+			}
+		}
+
+		/* ==================== MAIN CONTENT - MODERN DESIGN ==================== */
+		#cybercom-content {
+			background: var(--bg-base) !important;
+			color: var(--text-primary) !important;
+			min-height: 100vh;
+			padding: var(--space-8) var(--space-10);
+			max-width: 1600px;
+			margin: 0 auto; /* CENTER THE CONTENT! */
+		}
+
+		/* Container centered with proper max-width */
+		#cybercom-content .container,
+		#cybercom-content .container-fluid {
+			max-width: 1200px;
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: var(--space-6);
+			padding-right: var(--space-6);
+		}
+
+		/* Modern Typography Hierarchy */
+		#cybercom-content h1 {
+			color: var(--text-primary) !important;
+			font-size: 32px !important;
+			font-weight: 700 !important;
+			margin-bottom: var(--space-2) !important;
+			letter-spacing: -0.5px !important;
+		}
+
+		#cybercom-content h2 {
+			color: var(--text-primary) !important;
+			font-size: 24px !important;
+			font-weight: 600 !important;
+			margin-bottom: var(--space-4) !important;
+			letter-spacing: -0.3px !important;
+		}
+
+		#cybercom-content h3 {
+			color: var(--text-secondary) !important;
+			font-size: 18px !important;
+			font-weight: 600 !important;
+			margin-bottom: var(--space-3) !important;
+		}
+
+		#cybercom-content p,
+		#cybercom-content label,
+		#cybercom-content span,
+		#cybercom-content div {
+			color: var(--text-primary) !important;
+		}
+
+		/* ==================== MODERN CARDS ==================== */
+		.card {
+			background: var(--bg-surface) !important;
+			border: 1px solid var(--border-light) !important;
+			border-radius: var(--radius-xl) !important;
+			box-shadow: var(--shadow-sm) !important;
+			margin-bottom: var(--space-6) !important;
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+			overflow: hidden;
+		}
+
+		.card:hover {
+			box-shadow: var(--shadow-md) !important;
+			transform: translateY(-2px);
+		}
+
+		.card-header {
+			background: var(--bg-surface) !important;
+			color: var(--text-primary) !important;
+			font-size: 16px !important;
+			font-weight: 600 !important;
+			border-bottom: 1px solid var(--border-light) !important;
+			padding: var(--space-5) var(--space-6) !important;
+		}
+
+		.card-body {
+			padding: var(--space-6) !important;
+			background: var(--bg-surface) !important;
+			color: var(--text-primary) !important;
+		}
+
+		/* ==================== MODERN FORMS ==================== */
+		.form-control,
+		input[type="text"],
+		input[type="email"],
+		input[type="password"],
+		input[type="number"],
+		input[type="url"],
+		textarea,
+		select {
+			background: var(--bg-surface) !important;
+			border: 1.5px solid var(--border-light) !important;
+			border-radius: var(--radius-md) !important;
+			color: var(--text-primary) !important;
+			padding: 12px 16px !important;
+			min-height: 46px !important;
+			font-size: 14px !important;
+			line-height: 1.5 !important;
+			font-family: 'Inter', sans-serif !important;
+			transition: all 0.2s ease !important;
+			box-shadow: var(--shadow-sm) !important;
+		}
+
+		.form-control:focus,
+		input:focus,
+		textarea:focus,
+		select:focus {
+			border-color: var(--primary) !important;
+			box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-sm) !important;
+			outline: none !important;
+			background: #ffffff !important;
+		}
+
+		.form-control::placeholder {
+			color: var(--text-tertiary) !important;
+		}
+
+		.custom-select {
+			height: auto !important;
+			min-height: 46px !important;
+			padding: 12px 36px 12px 16px !important;
+			background-position: right 12px center !important;
+		}
+
+		.form-group label {
+			font-size: 14px !important;
+			font-weight: 600 !important;
+			color: var(--text-secondary) !important;
+			margin-bottom: var(--space-2) !important;
+		}
+
+		/* ==================== MODERN BUTTONS ==================== */
+		.btn {
+			border-radius: var(--radius-md) !important;
+			font-size: 14px !important;
+			font-weight: 600 !important;
+			padding: 10px 20px !important;
+			border: none !important;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+			text-decoration: none !important;
+			display: inline-flex;
+			align-items: center;
+			gap: var(--space-2);
+			box-shadow: var(--shadow-sm);
+		}
+
+		.btn:hover {
+			transform: translateY(-1px);
+			box-shadow: var(--shadow-md);
+		}
+
+		.btn:active {
+			transform: translateY(0);
+		}
+
+		.btn-primary {
+			background: linear-gradient(135deg, var(--primary), var(--primary-hover)) !important;
+			color: #ffffff !important;
+		}
+
+		.btn-primary:hover {
+			background: linear-gradient(135deg, var(--primary-hover), #3730a3) !important;
+			color: #ffffff !important;
+		}
+
+		.btn-success {
+			background: linear-gradient(135deg, var(--success), #059669) !important;
+			color: #ffffff !important;
+		}
+
+		.btn-success:hover {
+			background: linear-gradient(135deg, #059669, #047857) !important;
+		}
+
+		.btn-danger {
+			background: linear-gradient(135deg, var(--danger), #dc2626) !important;
+			color: #ffffff !important;
+		}
+
+		.btn-danger:hover {
+			background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+		}
+
+		.btn-warning {
+			background: linear-gradient(135deg, var(--warning), #d97706) !important;
+			color: #ffffff !important;
+		}
+
+		.btn-warning:hover {
+			background: linear-gradient(135deg, #d97706, #b45309) !important;
+		}
+
+		.btn-secondary {
+			background: var(--bg-surface) !important;
+			color: var(--text-primary) !important;
+			border: 1.5px solid var(--border-medium) !important;
+		}
+
+		.btn-secondary:hover {
+			background: var(--bg-base) !important;
+			border-color: var(--border-heavy) !important;
+		}
+
+		/* ==================== MODERN TABLES ==================== */
+		.table {
+			background: var(--bg-surface) !important;
+			border: 1px solid var(--border-light) !important;
+			border-radius: var(--radius-xl) !important;
+			border-collapse: separate !important;
+			border-spacing: 0 !important;
+			width: 100% !important;
+			margin-bottom: var(--space-6) !important;
+			box-shadow: var(--shadow-sm) !important;
+			overflow: hidden;
+		}
+
+		.table thead th {
+			background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%) !important;
+			color: var(--text-secondary) !important;
+			font-size: 12px !important;
+			font-weight: 700 !important;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			border-bottom: 2px solid var(--border-light) !important;
+			padding: 14px 20px !important;
+			text-align: left !important;
+		}
+
+		.table tbody td {
+			background: var(--bg-surface) !important;
+			color: var(--text-primary) !important;
+			font-size: 14px !important;
+			padding: 16px 20px !important;
+			border-bottom: 1px solid var(--border-light) !important;
+		}
+
+		.table tbody tr {
+			transition: all 0.15s ease;
+		}
+
+		.table tbody tr:hover td {
+			background: #fafbfc !important;
+		}
+
+		.table tbody tr:last-child td {
+			border-bottom: none !important;
+		}
+
+		
+
+		/* Fix Player Progression table - consistent rounded corners */
+		.table-responsive,
+		.table-container {
+			border-radius: var(--radius-xl) !important;
+			overflow: hidden;
+			border: 1px solid var(--border-light) !important;
+			box-shadow: var(--shadow-sm) !important;
+		}
+
+		/* Make table first and last cells match container radius */
+		.table thead th:first-child {
+			border-top-left-radius: var(--radius-xl) !important;
+		}
+
+		.table thead th:last-child {
+			border-top-right-radius: var(--radius-xl) !important;
+		}
+
+		.table tbody tr:last-child td:first-child {
+			border-bottom-left-radius: var(--radius-xl) !important;
+		}
+
+		.table tbody tr:last-child td:last-child {
+			border-bottom-right-radius: var(--radius-xl) !important;
+		}
+
+		
+
+		/* Fix table double-box issue - remove outer border */
+		.table-responsive {
+			border: none !important;
+			border-radius: 0 !important;
+			box-shadow: none !important;
+			overflow: visible !important;
+		}
+
+		/* Table already has proper styling - ensure it's the only border */
+		.table {
+			border-collapse: separate !important;
+			border-spacing: 0 !important;
+		}
+
+		/* Ensure first/last cells have proper radius */
+		.table thead tr:first-child th:first-child {
+			border-top-left-radius: var(--radius-xl) !important;
+		}
+
+		.table thead tr:first-child th:last-child {
+			border-top-right-radius: var(--radius-xl) !important;
+		}
+
+		.table tbody tr:last-child td:first-child {
+			border-bottom-left-radius: var(--radius-xl) !important;
+		}
+
+		.table tbody tr:last-child td:last-child {
+			border-bottom-right-radius: var(--radius-xl) !important;
+		}
+
+		/* ==================== MODERN BADGES ==================== */
+		.badge,
+		.btn-sm {
+			padding: 6px 12px !important;
+			border-radius: var(--radius-full) !important;
+			font-size: 12px !important;
+			font-weight: 600 !important;
+			text-transform: uppercase;
+			letter-spacing: 0.3px;
+		}
+
+		.badge-success,
+		.btn-success.btn-sm {
+			background: var(--success-light) !important;
+			color: var(--success) !important;
+		}
+
+		.badge-warning,
+		.btn-warning.btn-sm {
+			background: var(--warning-light) !important;
+			color: var(--warning) !important;
+		}
+
+		.badge-danger,
+		.btn-danger.btn-sm {
+			background: var(--danger-light) !important;
+			color: var(--danger) !important;
+		}
+
+		.badge-info,
+		.btn-info.btn-sm {
+			background: var(--primary-light) !important;
+			color: var(--primary) !important;
+		}
+
+		/* ==================== JUMBOTRON - MODERN ==================== */
+		.jumbotron {
+			background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+			border: 1px solid var(--border-light) !important;
+			border-radius: var(--radius-xl) !important;
+			padding: var(--space-10) !important;
+			margin-bottom: var(--space-6) !important;
+			box-shadow: var(--shadow-sm) !important;
+		}
+
+		/* ==================== ALERTS - MODERN ==================== */
+		.alert {
+			border-radius: var(--radius-lg) !important;
+			padding: var(--space-4) var(--space-5) !important;
+			border: 1.5px solid transparent !important;
+			margin-bottom: var(--space-4) !important;
+			box-shadow: var(--shadow-sm) !important;
+		}
+
+		.alert-info {
+			background: var(--primary-light) !important;
+			border-color: var(--primary) !important;
+			color: var(--primary-hover) !important;
+		}
+
+		.alert-success {
+			background: var(--success-light) !important;
+			border-color: var(--success) !important;
+			color: #065f46 !important;
+		}
+
+		.alert-warning {
+			background: var(--warning-light) !important;
+			border-color: var(--warning) !important;
+			color: #92400e !important;
+		}
+
+		.alert-danger {
+			background: var(--danger-light) !important;
+			border-color: var(--danger) !important;
+			color: #991b1b !important;
+		}
+
+		/* ==================== UTILITIES ==================== */
+		.text-muted {
+			color: var(--text-tertiary) !important;
+		}
+
+		
+		/* Remove ugly scrollbars - modern minimal design */
+		* {
+			scrollbar-width: thin;
+			scrollbar-color: var(--border-medium) transparent;
+		}
+
+		*::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+		}
+
+		*::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		*::-webkit-scrollbar-thumb {
+			background: var(--border-medium);
+			border-radius: var(--radius-full);
+		}
+
+		*::-webkit-scrollbar-thumb:hover {
+			background: var(--border-heavy);
+		}
+
+		/* Hide scrollbars on main content (use overflow-x: auto only when needed) */
+		#cybercom-content {
+			overflow-x: hidden;
+		}
+
+		body {
+			overflow-x: hidden;
+		}
+
+		/* Hide navbar */
+		.navbar-nav {
+			display: none !important;
+		}
+
+		/* Hide ugly sidebar menu button */
+		.sidebar-collapse-btn,
+		#sidebar-collapse-btn {
+			display: none !important;
+		}
+
+		/* Fix sidebar to properly cover footer */
+		.cybercom-sidebar {
+			position: fixed !important;
+			left: 0 !important;
+		}
+
+		/* Removed duplicate margin-left offset - handled by shell padding */
+
+		/* Fix Player Progression table - consistent rounded corners */
+		.table-responsive {
+			border-radius: var(--radius-xl) !important;
+			overflow: hidden !important;
+		}
+
+		/* ==================== RESPONSIVE ==================== */
+		@media (max-width: 992px) {
+			.cybercom-admin-shell {
+				grid-template-columns: 1fr;
+			}
+
+			.cybercom-sidebar {
+				position: fixed;
+				left: -320px;
+				top: 0;
+				width: 320px;
+				transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+
+			.cybercom-sidebar.mobile-open {
+				left: 0;
+			}
+
+			#cybercom-content {
+				padding: var(--space-6);
+			}
 		}
 	</style>
 
@@ -153,94 +835,17 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a href="{{ url_for('views.static_html', route='/') }}" class="navbar-brand">CYBERCOM ADMIN</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#base-navbars"
-					aria-controls="base-navbars" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="base-navbars">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.statistics') }}">Statistics</a></li>
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.notifications') }}">Notifications</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Pages</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="{{ url_for('admin.pages_listing') }}">All Pages</a>
-							<a class="dropdown-item" href="{{ url_for('admin.pages_new') }}">New Page</a>
-						</div>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.users_listing') }}">Users</a></li>
-					{% if get_config('user_mode') == 'teams' %}
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.teams_listing') }}">Teams</a></li>
-					{% endif %}
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.scoreboard_listing') }}">Scoreboard</a></li>
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.challenges_listing') }}">Challenges</a></li>
-					<li class="nav-item dropdown">
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-						   aria-haspopup="true" aria-expanded="true">Submissions</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="{{ url_for('admin.submissions_listing') }}">All Submissions</a>
-							<a class="dropdown-item" href="{{ url_for('admin.submissions_listing', submission_type='correct') }}">Correct Submissions</a>
-							<a class="dropdown-item" href="{{ url_for('admin.submissions_listing', submission_type='incorrect') }}">Incorrect Submissions</a>
-						</div>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.config') }}">Config</a></li>
-
-					{% set plugin_menu = get_admin_plugin_menu_bar() %}
-					{% set plugins = get_menubar_plugins() %}
-					{% if plugin_menu or plugins %}
-						<li class="nav-item">
-							<a class="nav-link d-none d-md-block d-lg-block" style="opacity: 0.3;">|</a>
-						</li>
-
-						{% for menu in plugin_menu %}
-							{% if request.script_root %}
-								{% set route = '/' + request.script_root + '/' + menu.route %}
-							{% else %}
-								{% set route = menu.route %}
-							{% endif %}
-							<li class="nav-item">
-								<a class="nav-link" href="{{ route }}" {% if menu.link_target %}target="{{ menu.link_target }}"{% endif %}>
-									{{ menu.title }}
-								</a>
-							</li>
-						{% endfor %}
-
-						{% if plugins %}
-						<li class="nav-item dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Plugins <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-									{% for plugin in plugins %}
-											<a class="dropdown-item" href="{{ request.script_root }}{{ plugin.route }}">{{ plugin.name }}</a>
-									{% endfor %}
-							</ul>
-						</li>
-						{% endif %}
-					{% endif %}
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="nav-item">
-						<a class="nav-link" href="https://docs.ctfd.io/" target="_blank">
-							<i class="far fa-question-circle"></i>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
 	<!-- CYBERCOM Admin Shell with CSS Grid -->
 	<div class="cybercom-admin-shell">
 		<!-- Persistent Sidebar -->
 		<aside id="cybercom-sidebar" class="cybercom-sidebar">
 			<div class="sidebar-header">
-				<div class="sidebar-brand">
-					<span class="brand-icon">▸</span>
-					<span class="brand-text">ADMIN</span>
-				</div>
+				<a href="{{ url_for('admin.statistics') }}" class="sidebar-brand">
+					<span class="brand-icon">
+						<img src="{{ url_for('admin.static', filename='img/cybercom-logo.png') }}" alt="CYBERCOM" class="brand-logo-img">
+					</span>
+					<span class="brand-text">CYBERCOM</span>
+				</a>
 				<button id="sidebar-collapse-btn" class="sidebar-collapse-btn" aria-label="Toggle sidebar">
 					<i class="fas fa-bars"></i>
 				</button>
@@ -375,24 +980,23 @@
 			{% endif %}
 			{% block content %}
 			{% endblock %}
+
+		<!-- Footer moved inside main content area -->
+		<footer class="footer pt-5 mt-5" style="width: 100%; margin-left: 0; padding-left: 0;">
+			<div class="container text-center">
+				<div style="margin-bottom: 0.5rem;">
+					<small class="text-muted" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; letter-spacing: 0.5px;">
+						CYBERCOM SECURITY GRID — ADMIN INTERFACE
+					</small>
+				</div>
+				<small class="text-muted">
+					Version {{ get_config('ctf_version') }}
+				</small>
+			</div>
+		</footer>
 		</main>
 	</div>
 
-	<footer class="footer pt-2">
-		<div class="container text-center">
-			<a href="https://ctfd.io" class="text-secondary">
-				<small class="text-muted">
-					Powered by CTFd
-				</small>
-			</a>
-			<span>
-				<small class="text-muted"><br> Version {{ get_config('ctf_version') }}</small>
-			</span>
-			<div style="margin-top: 1rem;">
-				<small class="text-muted" style="font-family: 'Orbitron', monospace; letter-spacing: 0.1em;">CYBERCOM SECURITY GRID — ADMIN INTERFACE</small>
-			</div>
-		</div>
-	</footer>
 
 	{% block entrypoint %}
 		{{ Assets.js("assets/js/pages/main.js", theme="admin") }}

@@ -6,29 +6,49 @@
 		<h1>Statistics</h1>
 	</div>
 </div>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-2 offset-1 text-right pt-5">
-			<h5><b>{{ user_count }}</b> users registered</h5>
-			{% if get_config('user_mode') == 'teams' %}
-			<h5><b>{{ team_count }}</b> teams registered</h5>
-			{% endif %}
-			<h5><b>{{ ip_count }}</b> IP addresses</h5>
-			<hr>
-			<h5><b>{{ total_points }}</b> total possible points</h5>
-			<h5><b>{{ challenge_count }}</b> challenges</h5>
-			{% if most_solved %}
-				<h5><b>{{ most_solved }}</b> has the most solves with <br>{{ solve_data[most_solved] }} solves</h5>
-			{% endif %}
-			{% if least_solved %}
-			<h5><b>{{ least_solved }}</b> has the least solves with <br>{{ solve_data[least_solved] }} solves</h5>
-			{% endif %}
+<div class="container">
+	<div class="row mb-4">
+		<div class="col-md-12">
+			<div class="stats-grid">
+				<div class="stat-item">
+					<span class="stat-number">{{ user_count }}</span>
+					<span class="stat-text">Users</span>
+				</div>
+				{% if get_config('user_mode') == 'teams' %}
+				<div class="stat-item">
+					<span class="stat-number">{{ team_count }}</span>
+					<span class="stat-text">Teams</span>
+				</div>
+				{% endif %}
+				<div class="stat-item">
+					<span class="stat-number">{{ ip_count }}</span>
+					<span class="stat-text">IP Addresses</span>
+				</div>
+				<div class="stat-item">
+					<span class="stat-number">{{ total_points }}</span>
+					<span class="stat-text">Total Points</span>
+				</div>
+				<div class="stat-item">
+					<span class="stat-number">{{ challenge_count }}</span>
+					<span class="stat-text">Challenges</span>
+				</div>
+			</div>
 		</div>
+	</div>
 
-		<div class="col-md-8">
-			<h3>Player Progression <sup class="text-muted">(Top 100)</sup></h3>
-			<div class="matrix-container">
-				<table class="table table-striped table-bordered table-sm" id="matrix-scoreboard">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="progression-card">
+				<div class="progression-header">
+					<div>
+						<h3 class="progression-title">Player Progression Matrix</h3>
+						<p class="progression-subtitle">Top 100 performers with real-time challenge completion status</p>
+					</div>
+					<div class="progression-badge">Top 100</div>
+				</div>
+
+				<div class="matrix-container">
+					<table class="table table-sm" id="matrix-scoreboard">
 					<thead class="thead-dark">
 						<tr>
 							<th class="text-white" style="background-color: #343a40; z-index: 10; width: 60px;">Rank</th>
@@ -88,25 +108,24 @@
 						{% endfor %}
 					</tbody>
 				</table>
-			</div>
-			
-			<div class="mt-3 float-right">
-				<div class="d-flex flex-wrap">
-					<div class="mr-4 mb-2">
-						<span class="badge px-2 py-1" style="background-color: #28a745; color: white;">✓</span>
-						<small class="ml-2">Solved</small>
+				</div>
+
+				<div class="progression-legend">
+					<div class="legend-item">
+						<span class="legend-dot legend-solved"></span>
+						<span>Solved</span>
 					</div>
-					<div class="mr-4 mb-2">
-						<span class="badge px-2 py-1" style="background-color: #ffc107; color: #212529;">-</span>
-						<small class="ml-2">Attempted</small>
+					<div class="legend-item">
+						<span class="legend-dot legend-attempted"></span>
+						<span>Attempted</span>
 					</div>
-					<div class="mr-4 mb-2">
-						<span class="badge px-2 py-1" style="background-color: #17a2b8; color: white;">-</span>
-						<small class="ml-2">Opened</small>
+					<div class="legend-item">
+						<span class="legend-dot legend-opened"></span>
+						<span>Opened</span>
 					</div>
-					<div class="mr-4 mb-2">
-						<span class="badge px-2 py-1" style="background-color: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6;">-</span>
-						<small class="ml-2">Not viewed</small>
+					<div class="legend-item">
+						<span class="legend-dot legend-none"></span>
+						<span>Not Viewed</span>
 					</div>
 				</div>
 			</div>
@@ -153,7 +172,7 @@
 
 	<hr>
 </div>
-<div class="container-fluid">
+<div class="container">
 	<div class="row">
 		<div class="col-md-4">
 			<div id="keys-pie-graph" class="d-flex align-items-center">
@@ -187,51 +206,209 @@
 
 {% block stylesheets %}
 <style>
+/* ==================== STATS GRID ==================== */
+.stats-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+.stat-item {
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	padding: 1.25rem 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	transition: all 0.2s ease;
+}
+
+.stat-item:hover {
+	border-color: #3b82f6;
+	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+	transform: translateY(-2px);
+}
+
+.stat-number {
+	font-size: 2rem;
+	font-weight: 700;
+	color: #1f2937;
+	line-height: 1.2;
+	margin-bottom: 0.25rem;
+}
+
+.stat-text {
+	font-size: 0.875rem;
+	color: #6b7280;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.025em;
+}
+
+/* ==================== PROGRESSION CARD ==================== */
+.progression-card {
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progression-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 1.5rem;
+	background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+	border-bottom: 2px solid #3b82f6;
+}
+
+.progression-title {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #111827;
+	margin: 0 0 0.25rem 0;
+}
+
+.progression-subtitle {
+	font-size: 0.875rem;
+	color: #6b7280;
+	margin: 0;
+}
+
+.progression-badge {
+	background: linear-gradient(135deg, #3b82f6, #2563eb);
+	color: #ffffff;
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	font-size: 0.875rem;
+	font-weight: 600;
+	letter-spacing: 0.025em;
+	box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* ==================== MATRIX TABLE ==================== */
+.matrix-container {
+	max-height: 600px;
+	overflow: auto;
+	background: #f9fafb;
+}
+
 #matrix-scoreboard {
 	font-size: 12px;
+	margin: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+	width: 100%;
 }
 
 #matrix-scoreboard th {
-	vertical-align: bottom;
-	padding: 4px;
+	background: #1f2937;
+	color: #ffffff;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.025em;
+	padding: 0.75rem 0.5rem;
+	border: none;
+	vertical-align: middle;
 	position: sticky;
 	top: 0;
 	z-index: 10;
+	font-size: 0.75rem;
 }
 
 #matrix-scoreboard td {
-	padding: 2px;
+	padding: 0.5rem;
 	text-align: center;
 	vertical-align: middle;
+	background: #ffffff;
+	border-bottom: 1px solid #f3f4f6;
+}
+
+#matrix-scoreboard tbody tr:hover td {
+	background: #eff6ff;
 }
 
 #matrix-scoreboard .sticky-col {
 	position: sticky;
-	background-color: white;
+	left: 0;
 	z-index: 5;
+	background-color: #ffffff;
+	font-weight: 600;
+	text-align: left;
 }
 
 #matrix-scoreboard thead .sticky-col {
-	background-color: #343a40 !important;
+	background-color: #1f2937 !important;
 	z-index: 20;
 }
 
-#matrix-scoreboard tbody .sticky-col {
-	background-color: white !important;
-	z-index: 5;
+#matrix-scoreboard tbody tr:hover .sticky-col {
+	background: #eff6ff;
 }
 
-.matrix-container {
-	height: 600px;
-	overflow: auto;
-	border: 1px solid #dee2e6;
+/* ==================== LEGEND ==================== */
+.progression-legend {
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+	padding: 1rem 1.5rem;
+	background: #f9fafb;
+	border-top: 1px solid #e5e7eb;
 }
 
-.challenge-header {
-	writing-mode: vertical-rl;
-	text-orientation: mixed;
-	height: 100px;
-	white-space: nowrap;
+.legend-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.875rem;
+	color: #4b5563;
+	font-weight: 500;
+}
+
+.legend-dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 2px;
+	flex-shrink: 0;
+}
+
+.legend-solved {
+	background: #10b981;
+}
+
+.legend-attempted {
+	background: #f59e0b;
+}
+
+.legend-opened {
+	background: #06b6d4;
+}
+
+.legend-none {
+	background: #e5e7eb;
+}
+
+/* ==================== SCROLLBAR ==================== */
+.matrix-container::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.matrix-container::-webkit-scrollbar-track {
+	background: #f3f4f6;
+}
+
+.matrix-container::-webkit-scrollbar-thumb {
+	background: #d1d5db;
+	border-radius: 4px;
+}
+
+.matrix-container::-webkit-scrollbar-thumb:hover {
+	background: #9ca3af;
 }
 </style>
 {% endblock %}
